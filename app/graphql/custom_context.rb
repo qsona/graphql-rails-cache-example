@@ -1,6 +1,8 @@
 class CustomContext < GraphQL::Query::Context
   class Unauthenticated < StandardError; end
 
+  attr_accessor :max_age
+
   def current_user
     return @current_user if @current_user
 
