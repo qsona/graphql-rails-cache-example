@@ -8,6 +8,14 @@ class GraphqlController < ApplicationController
       authorization: 'asdf',
     }
     result = GraphqlRailsCacheExampleSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+
+    puts "----- max_age ------------------------"
+    puts result.query.context.max_age
+
+    # TODO:
+    # Currently, the endpoint method is POST so it doesn't return cache-control header
+    expires_in result.query.context.max_age || 0
+
     render json: result
   rescue => e
     raise e unless Rails.env.development?
